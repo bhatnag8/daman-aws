@@ -42,7 +42,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             </li>
 
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link btn btn-outline-danger active" th:href ="@{/login?logout}">Logout</a>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="nav-link btn btn-outline-danger active">Logout</button>
+                </form>
             </li>
         </ul>
     </div>
