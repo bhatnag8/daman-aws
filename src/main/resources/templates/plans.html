@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Insurance Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+<body class="bg-dark">
+<nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-between">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Home</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav d-flex">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/plans}">Insurance Plans</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/benefits}">Benefits</a>
+            </li>
+
+
+
+
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+
+            <li class="nav-item active">
+                <a class="nav-link">Logged in as: <span class="nav-text" sec:authentication="principal.username"></span></a>
+            </li>
+
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link btn btn-outline-danger active" th:href ="@{/login?logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+    <div class = "container-fluid pt-3 pl-6 pr-6 bg-dark text-white">
+        <div class = "jumbotron" style="background-color:#222529">
+            <h2>Insurance Plans <span class="badge badge-pill badge-danger">2021</span> </h2>
+            <h5>National Health Insurance Company - Daman</h5>
+            <h5>Add a Plan to the Database</h5>
+
+
+        </div>
+
+        <div class = "row">
+            <div class = "col-lg-3">
+                <a th:href="@{/plans/new}" class = "btn btn-light btn-lg mb-3">Add Plan</a>
+            </div>
+        </div>
+
+        <table class = "table table-striped table-dark table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Premium</th>
+                    <th>Benefit</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr  th:each = "plan: ${plans}" th:height="5">
+                    <td th:text="${plan.id}" style="vertical-align: middle; display: table-cell"></td>
+                    <td th:text="${plan.name}" style=" vertical-align: middle; display: table-cell"></td>
+                    <td th:text="${plan.description}" style="vertical-align: middle; display: table-cell"></td>
+                    <td th:text="${plan.premium}" style=" vertical-align: middle; display: table-cell"></td>
+                    <td th:text="${plan.benefit.alteredName}" style="vertical-align: middle; display: table-cell"></td>
+                    <td th:text="${plan.activeString}" style="display: table-cell" th:style="${plan.active} == false ? 'color: #F6C344; vertical-align: middle': 'color: #57C231; vertical-align: middle'" ></td>
+
+                    <td style=" width: 25%;">
+                        <a th:href="@{/plans/enable/{id}(id=${plan.id})}"
+                           class = "btn btn-success" style=" height: 36px; width: 23%;  "><i class="material-icons">check_circle</i></a>
+                        <a th:href="@{/plans/disable/{id}(id=${plan.id})}"
+                           class = "btn btn-warning" style=" height: 36px; width: 23%;  ;"><i class="material-icons">cancel</i></a>
+                        <a th:href="@{/plans/edit/{id}(id=${plan.id})}"
+                           class = "btn btn-primary" style=" height: 36px; width: 23%;  ;"><i class="material-icons">mode_edit</i></a>
+                        <a th:href="@{/plans/{id}(id=${plan.id})}"
+                           class = "btn btn-danger" style=" height: 36px; width: 23%;  ;";><i class="material-icons">delete_forever</i></a>
+
+
+                    </td>
+                </tr>
+            </tbody>
+
+
+
+        </table>
+    </div>
+</body>
+</html>
